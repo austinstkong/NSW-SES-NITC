@@ -22,6 +22,13 @@ document.addEventListener('DOMContentLoaded', function() {
       }
   }
 
+  function backspace() {
+    // Remove the last character from registrationNumber
+    registrationNumber = registrationNumber.slice(0, -1);
+    // Update the registration field to reflect the change
+    updateRegistrationField();
+        }
+
   // Display error messages
   function showError(message) {
       if (errorDiv) {
@@ -75,38 +82,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Function to handle check-in and check-out
   function handleCheck(action) {
-      if (!registrationNumber.startsWith('400')) {
-          showError('Registration number must start with 400.');
-          return; // Exit the function if validation fails
-      }
-      
-      const formData = new URLSearchParams({
-          'registrationNumber': registrationNumber,
-          'TagIds': JSON.stringify(selectedTagIds)
-      });
-      
-      fetch(`/${action}`, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: formData.toString()
-      })
-      .then(response => response.ok ? response.json() : Promise.reject(`Failed to ${action}. HTTP Status: ${response.status}`))
-      .then(data => {
-          if (data.status === 'success') {
-              clearNumber();
-              alert(`Checked ${action === 'check_in' ? 'in' : 'out'} successfully.`);
-          } else {
-              showError(`Failed to ${action}. ${data.message}`);
-          }
-      })
-      .catch(error => {
-          showError(`An error occurred while trying to ${action}. Please try again.`);
-          console.error(`Error during ${action}:`, error);
-      });
-  }
+      // Check for activity selection on check-out
+    if (action === 'check_out' && selectedTagIds.length === 0) {
+        showError('Please select at least one activity before checking out.');
+        return; // Exit the function if validation fails
+    }
 
+    if (!registrationNumber.startsWith('400')) {
+        showError('Registration number must start with 400.');
+        return; // Exit the function if validation fails
+    }
+    
+    const formData = new URLSearchParams({
+        'registrationNumber': registrationNumber,
+        'TagIds': JSON.stringify(selectedTagIds)
+    });
+    
+    fetch(`/${action}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: formData.toString()
+    })
+    .then(response => response.ok ? response.json() : Promise.reject(`Failed to ${action}. HTTP Status: ${response.status}`))
+    .then(data => {
+        if (data.status === 'success') {
+            clearNumber();
+            alert(`Checked ${action === 'check_in' ? 'in' : 'out'} successfully.`);
+        } else {
+            showError(`Failed to ${action}. ${data.message}`);
+        }
+    })
+    .catch(error => {
+        showError(`An error occurred while trying to ${action}. Please try again.`);
+        console.error(`Error during ${action}:`, error);
+    });
+}
   // Function to append a number to the registrationNumber
   function appendNumber(num) {
       registrationNumber += num;
@@ -179,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   document.getElementById('clearNumber')?.addEventListener('click', clearNumber);
-  document.getElementById('backspace')?.addEventListener('click', () => appendNumber(''));
+  document.getElementById('backspace').addEventListener('click', backspace);
 
   document.getElementById('checkInButton')?.addEventListener('click', () => handleCheck('check_in'));
   document.getElementById('checkOutButton')?.addEventListener('click', () => handleCheck('check_out'));
