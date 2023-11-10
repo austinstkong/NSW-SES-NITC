@@ -1,0 +1,19 @@
+
+{% extends "base.html" %}
+
+{% block title %}Time Capture System{% endblock %}
+
+{% block content %}
+<div id="member-number-section" class="center-content">
+  <input type="text" id="registrationNumber" placeholder="Enter Member Number">
+</div>
+<div id="error-message" style="text-align: center; display:none; color:red;"></div>
+
+{% include 'search_results.html' %}
+{% include 'keypad.html' %}
+
+
+<div class="icons-large center-content">
+  {% include 'tag_icons.html' %}
+</div>
+{% endblock %}

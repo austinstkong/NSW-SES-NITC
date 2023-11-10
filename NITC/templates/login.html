@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #loginForm {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        #passcode {
+            width: 90%;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease-in-out;
+        }
+        #passcode:focus {
+            border-color: #0056b3;
+            outline: none;
+        }
+        #keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .function-key {
+            background-color: #666;
+        }
+        .function-key:hover {
+            background-color: #333;
+        }
+        button[type="submit"] {
+        margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginForm">
+        <form action="/login" method="post"> <!-- Update the action attribute to your login processing URL -->
+            <input type="password" id="passcode" name="passcode" placeholder="Enter your passcode" required>
+            <div id="keypad">
+                <button type="button" class="keypad-button" data-number="1">1</button>
+                <button type="button" class="keypad-button" data-number="2">2</button>
+                <button type="button" class="keypad-button" data-number="3">3</button>
+                <button type="button" class="keypad-button" data-number="4">4</button>
+                <button type="button" class="keypad-button" data-number="5">5</button>
+                <button type="button" class="keypad-button" data-number="6">6</button>
+                <button type="button" class="keypad-button" data-number="7">7</button>
+                <button type="button" class="keypad-button" data-number="8">8</button>
+                <button type="button" class="keypad-button" data-number="9">9</button>
+                <button type="button" class="keypad-button" id="clear">Clear</button>
+                <button type="button" class="keypad-button" data-number="0">0</button>
+                <button type="button" class="keypad-button" id="backspace">⌫</button>
+            </div>
+            <div id=submit>
+            <button type="submit" class="submit-button">Login</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let passcode = '';
+        
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const keypadButtons = document.querySelectorAll('#keypad button');
+            keypadButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const num = this.getAttribute('data-number');
+                    if(num !== undefined) {
+                        appendNumber(num);
+                    } else if(this.id === 'clear') {
+                        clearPasscode();
+                    } else if(this.id === 'backspace') {
+                        backspacePasscode();
+                    }
+                });
+            });
+    
+            const loginForm = document.getElementById('loginForm');
+            loginForm.addEventListener('submit', function(event) {
+                // Perform client-side validation here, if necessary
+                // If validation fails, prevent form submission with event.preventDefault();
+            });
+        });
+    
+        function appendNumber(num) {
+            passcode += num;
+            document.getElementById('passcode').value = passcode;
+        }
+    
+        function clearPasscode() {
+            passcode = '';
+            document.getElementById('passcode').value = passcode;
+        }
+    
+        function backspacePasscode() {
+            passcode = passcode.slice(0, -1);
+            document.getElementById('passcode').value = passcode;
+        }
+    </script>
+</body>
+</html>
