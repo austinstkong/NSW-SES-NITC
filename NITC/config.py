@@ -8,5 +8,5 @@ DATABASE_URL = "sqlite://///home/andrew/git/dev/NITC/db/members.db"
 
 # Constants for API
 BEACON_URL = 'https://trainbeacon.ses.nsw.gov.au'
-USERNAME = '40039864'
-PASSWORD = '1/94Ninthave'
+USERNAME = 'YOUR BEACON USERNAME'
+PASSWORD = 'YOUR BEACON PASSWORD'
