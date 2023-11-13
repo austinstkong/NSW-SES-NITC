@@ -9,4 +9,6 @@ At the moment there are a few activities set up as shortcuts, with the whole lis
 
 I'm not a coder, so please forgive any poor implementations or dodgy code. I'm open to suggestions and if you'd like to contribute please get in touch.
 
-To install you'll need to install https://github.com/NSWSESMembers/pybeacon/archive/refs/heads/main.zip as well as the various librarys located in requirements.txt
+To install you'll need to install https://github.com/NSWSESMembers/pybeacon/archive/refs/heads/main.zip as well as the various librarys located in requirements.txt You'll also need to modify NITC/config.py to put in some details (SECRET KEY, USERNAME, PASSWORD and members.db location)
+
+As it's a FLASK application, you'll need to host accordingly.
