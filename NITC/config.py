@@ -8,8 +8,8 @@ DATABASE_URL = "sqlite://///home/andrew/git/NITC2.0/NITC/db/members.db"
 
 # Constants for API
 BEACON_URL = 'https://trainbeacon.ses.nsw.gov.au'
-USERNAME = '40039864'
-PASSWORD = '1/94Ninthave'
+USERNAME = 'YOUR USERNAME'
+PASSWORD = 'YOUR PASSWORD'
 
 
 # C:\Users\AndrewRogers\OneDrive - Our Farm Life\Documents\dev\NITC2.0\NITC\db\members.db
