@@ -1,0 +1,6 @@
+Flask==3.0.0
+pandas==2.1.3
+pytz==2022.1
+Requests==2.31.0
+SQLAlchemy==2.0.22
+https://github.com/NSWSESMembers/pybeacon/archive/refs/heads/main.zip
