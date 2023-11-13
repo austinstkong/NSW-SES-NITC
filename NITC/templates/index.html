@@ -11,9 +11,22 @@
 
 {% include 'search_results.html' %}
 {% include 'keypad.html' %}
-
-
 <div class="icons-large center-content">
   {% include 'tag_icons.html' %}
 </div>
+<div class="container2">
+  <div class="button-group">
+<!-- Buttons for Different TagGroups -->
+<button class="tag-group-button" onclick="loadDataByTagGroupId(28)">Training</button>
+<button class="tag-group-button" onclick="loadDataByTagGroupId(29)">Community Engagement</button>
+<button class="tag-group-button" onclick="loadDataByTagGroupId(30)">Other</button>
+<button class="tag-group-button" onclick="loadDataByTagGroupId(41)">Peer Support</button>
+<button class="tag-group-button" onclick="loadDataByTagGroupId(47)">Media Events</button>
+<!-- Add more buttons for different TagGroups -->
+</div>
+<!-- Dropdown List -->
+<select id="dropdownList" class="tag-dropdown" multiple></select>
+</div>
+
+
 {% endblock %}

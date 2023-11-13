@@ -54,7 +54,7 @@ def send_api_payload(person_id, start_date, end_date, tag_ids, token):
     end_date_aware = sydney_tz.localize(end_date)
 
     payload = {
-        "Name": f"Attended Unit {start_date_aware.strftime('%d/%m/%Y')}",
+        "Name": f"NITC - {start_date_aware.strftime('%d/%m/%Y')}",
         "Description": "",
         "TypeId": 1,
         "StartDate": start_date_aware.strftime('%Y-%m-%dT%H:%M:%S'),

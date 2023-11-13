@@ -156,8 +156,6 @@
       height: 50px;
   }
   
-  /* ... existing CSS ... */
-  
   /* Style for the tag icons container */
   .tag-icons-container {
     display: flex;
@@ -209,100 +207,84 @@
   .submit-button:hover {
     background-color: #555555; /* Darken button color on hover for feedback */
   }
-  
-  /* If the buttons are part of a flex or grid container, you may want to add properties like these: */
+
   .submit-button-container {
     display: flex; /* Or grid, depending on your layout */
     justify-content: space-evenly; /* Adjusts the spacing around items */
     align-items: center; /* Centers items vertically */
-    /* Other properties as needed for your layout */
   }
   
   /* If the buttons are direct children of a flex container, these properties might help: */
   .submit-button {
     flex: 1; /* Each button will take up equal space */
+    /* Rest of your styles */
   }
   
 .checkoutbutton {
   width: 100%;
 }
 
-/* Basic styles for the body that are shared across the main and login page */
-body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f7f7f7;
-  margin: 0;
+/* Styling for the button group */
+.button-group {
+  margin-bottom: 15px;
 }
 
-/* Styles specific to the login page */
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.login-form {
-  background: #fff;
-  padding: 40px;
-  border-radius: 8px;
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.input-passcode {
-  width: 90%;
-  padding: 10px 15px;
-  margin-bottom: 20px;
-  font-size: 18px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease-in-out;
-}
-
-.input-passcode:focus {
-  border-color: #0056b3;
-  outline: none;
-}
-
-.keypad {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.keypad-button {
-  padding: 10px 15px;
-  font-size: 16px;
-  cursor: pointer;
-  background: #007BFF;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-}
-
-.keypad-button:hover {
-  background-color: #0056b3;
-}
-
-/* Media queries for responsiveness */
-@media (max-width: 768px) {
-  .login-form {
-    width: 95%;
+.container2{
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers children horizontally in the column */
+    justify-content: center; /* Centers children vertically */
     padding: 20px;
-  }
+    width: 100%; /* Full width of the container */
+    max-width: 80%;
+    max-height: 80%;
+    margin: 40px auto;
+    padding: 24px;
+    background-color: var(--secondary-bg-color);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+}
+/* Styling for Tag Group Selection Buttons */
+.tag-group-button {
+  padding: 10px 20px; /* Padding for button size */
+  margin: 5px;        /* Margin for spacing between buttons */
+  background-color: #009688; /* Background color */
+  color: white;       /* Text color */
+  border: none;       /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer;    /* Cursor to pointer to indicate it's clickable */
+  font-size: 16px;    /* Font size */
+  transition: background-color 0.3s; /* Transition for hover effect */
+  flex-grow: 1;       /* Buttons grow to fill the available space */
+}
 
-  .input-passcode {
-    font-size: 16px;
-  }
+.tag-group-button:hover {
+  background-color: #00796b; /* Darker shade on hover */
+}
 
-  .keypad-button {
-    padding: 8px;
-    font-size: 14px;
+/* Styling for Dropdown Box */
+#dropdownList {
+  width: 100%;        /* Full width */
+  max-width: 66%;   /* Maximum width of dropdown */
+  padding: 8px 15px;  /* Padding for some space inside the dropdown */
+  margin: 10px 0;     /* Margin for spacing around the dropdown */
+  border: 1px solid #ccc; /* A light border */
+  border-radius: 4px; /* Slightly rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* A subtle shadow */
+  font-size: 16px;    /* Adequate font size */
+  color: #333;        /* Text color */
+  background-color: #fff; /* Background color */
+}
+
+#dropdownList:focus {
+  border-color: #009688; /* Change border color when focused */
+  outline: none; /* Removing default focus outline */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+  .tag-group-button {
+      flex-grow: 0;  /* Prevent buttons from growing too much on small screens */
+      width: 100%;   /* Full width buttons on smaller screens */
   }
 }

@@ -1,5 +1,5 @@
 # In views.py
-from flask import Blueprint, render_template, request, session as flask_session, redirect, url_for, jsonify
+from flask import Flask, Blueprint, render_template, request, session as flask_session, redirect, url_for, jsonify
 from .api_utils import search_member_by_reg_num
 # from flask import Flask, request, , render_template, session as flask_session, redirect, url_for
 from .config import SECRET_KEY
@@ -13,6 +13,7 @@ from NITC import create_app
 from flask import current_app
 from datetime import datetime
 import pytz
+import pandas as pd
 
 main = Blueprint('main', __name__)
 
@@ -38,6 +39,28 @@ def index():
 def require_login():
     if request.endpoint not in ['main.login', 'static'] and ('logged_in' not in flask_session or not flask_session['logged_in']):
         return redirect(url_for('main.login'))
+    
+@main.route('/check_in_status', methods=['GET'])
+def check_in_status():
+    registration_number = request.args.get('registrationNumber')
+    session = Session()
+
+    try:
+        # Query the latest record for the member
+        member_record = session.query(Member).filter_by(member_number=registration_number).order_by(Member.id.desc()).first()
+
+        # Check if the member is currently checked in
+        # This logic might depend on how you track the check-in and check-out times
+        # For example, if the latest record has no end_date, it might mean the member is still checked in
+        is_checked_in = member_record is not None and member_record.end_date is None
+
+        return jsonify({"isCheckedIn": is_checked_in})
+    except Exception as e:
+        current_app.logger.error('Error checking in status', exc_info=True)
+        return jsonify({"status": "error", "message": str(e)}), 500
+    finally:
+        session.close()
+        
 
 @main.route('/search_member', methods=['GET'])
 def search_person():
@@ -57,6 +80,15 @@ def search_person():
             return jsonify({"status": "error", "message": "Member not found"}), 404
     else:
         return jsonify({"status": "error", "message": "Either registrationNumber or LastName must be provided"}), 400
+    
+@main.route('/get_items_by_taggroupid')
+def get_items_by_taggroupid():
+    tag_group_id = request.args.get('tagGroupId', type=int)
+    df = pd.read_csv('/home/andrew/git/NITC2.0/NITC/static/items.csv')
+    filtered_df = df[df['tagGroupId'] == tag_group_id]  # Correct column name case
+
+    data = filtered_df.to_dict(orient='records')
+    return jsonify(data)
 
 @main.route('/check_in', methods=['POST'])
 def check_in():
