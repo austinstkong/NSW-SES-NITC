@@ -1,4 +1,4 @@
-# NITC2.0
+# NITC2.1
 A newer version with refactored and organised code and error checking/input validation
 
 Basically I saw a need for a simplified, easy to use Non-Incident Time Capture (NITC) process.
