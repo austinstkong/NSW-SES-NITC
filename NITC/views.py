@@ -16,6 +16,7 @@ import pytz
 import pandas as pd
 
 main = Blueprint('main', __name__)
+beacon_token = None
 
 # Route for login page
 @main.route('/login', methods=['GET', 'POST'])
@@ -28,6 +29,19 @@ def login():
         else:
             return render_template('login.html', error="Incorrect passcode"), 401
     return render_template('login.html')
+
+@main.route('/login_beacon', methods=['GET', 'POST'])
+def login_beacon():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        try:
+            beacon_token = get_api_token(username, password)
+            flask_session['logged_in'] = True
+            return redirect(url_for('main.index'))
+        except:
+            return render_template('login_beacon.html', error="Incorrect username or password"), 401
+    return render_template('login_beacon.html')
 
 # Route for logout page
 @main.route('/logout', methods=['POST'])

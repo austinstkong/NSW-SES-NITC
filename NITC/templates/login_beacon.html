@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<div id="loginForm">
+    <form action="/login" method="post"> <!-- Update the action attribute to your login processing URL -->
+        
+        <input type="text" id="username" name="username" placeholder="Username" required>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        {% include 'keypad.html' %}
+        <div class="submit-button center-content">
+            <button type="submit" class="btn btn-primary check">Login</button>
+        </div> 
+
+    </form>
+</div>
+
+{% endblock %}
