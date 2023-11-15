@@ -83,7 +83,7 @@
     margin-bottom: 24px;
   }
   
-  input[type="text"] {
+  input[type="text"], input[type="number"], input[type="password"] {
     flex: 1;
     width: 100%;
     padding: 12px;
@@ -99,10 +99,10 @@
     outline: none;
   }
   
-  #member-number-section input[type="text"] {
+  #member-number-section input[type="text"], input[type="number"], input[type="password"] {
     display: block; /* Makes the input take the entire line */
     margin: auto; /* Centers the input */
-    max-width: 50%; /* Maximum width of the input */
+    max-width: 400px; /* Maximum width of the input */
     font-size: 24px;
   }
   
@@ -286,5 +286,41 @@
   .tag-group-button {
       flex-grow: 0;  /* Prevent buttons from growing too much on small screens */
       width: 100%;   /* Full width buttons on smaller screens */
+  }
+}
+
+.keypad-container {
+  max-width: 400px;
+  margin: auto;
+}
+/* Touch-friendly button styles */
+.key {
+  margin: 5px;
+  padding: 20px 0; /* Increase padding for a larger touch area */
+  font-size: 2rem; /* Larger font size for readability */
+  width: 100%;
+  background-color: rgb(61, 61, 165);
+  border-radius: 10px; /* Optional: for rounded corners */
+}
+
+/* Making the check-in and check-out buttons larger and more touch-friendly */
+.check {
+  width: 100%; /* Full width for easier touch */
+  padding: 20px; /* Ample padding for a larger touch area */
+  font-size: 1.5rem; /* Larger font size for readability */
+  margin-top: 10px; /* Spacing between buttons */
+  border-radius: 10px; /* Optional: for rounded corners */
+}
+
+/* Ensuring that the submit buttons are centered and spaced evenly */
+.submit-button {
+  display: flex;
+  justify-content: space-around; /* This will space out the buttons evenly */
+  margin-top: 20px; /* Spacing from the last row of keys */
+}
+
+@media (min-width: 768px) { /* For larger screens, you might want to set a max-width */
+  .check {
+      max-width: 200px; /* Set a max-width for larger screens */
   }
 }

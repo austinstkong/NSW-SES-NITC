@@ -26,8 +26,15 @@ def login():
             flask_session['logged_in'] = True
             return redirect(url_for('main.index'))
         else:
-            return render_template('login.html', message="Incorrect passcode"), 401
+            return render_template('login.html', error="Incorrect passcode"), 401
     return render_template('login.html')
+
+# Route for logout page
+@main.route('/logout', methods=['POST'])
+def logout():
+    flask_session['logged_in'] = False
+    beacon_token = None
+    return render_template('login.html', message="You have successfully logged out"), 200
 
 @main.route('/', methods=['GET'])
 def index():
