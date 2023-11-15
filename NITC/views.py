@@ -31,22 +31,17 @@ def login():
         else:
             return render_template('login.html', error="Incorrect passcode"), 401
     return render_template('login.html')
-
-@main.route('/login_beacon', methods=['GET', 'POST'])
-def login_beacon():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        try:
-            flask_session['logged_in'] = True
-            flask_session['beacon_token'] = get_token()
-            flask_session['username'] = username
-            flask_session['trainbeacon'] = BEACON_URL.find("train")>=0
-            
-            return redirect(url_for('main.index'))
-        except:
-            return render_template('login_beacon.html', error="Incorrect username or password"), 401
-    return render_template('login_beacon.html')
+    # if request.method == 'POST':
+    #     username = request.form.get('username')
+    #     password = request.form.get('password')
+    #     flask_session['beacon_token'] = get_token(username, password)
+    #     if flask_session['beacon_token'] is None:
+    #         return render_template('login_beacon.html', error="Incorrect username or password"), 401
+    #     flask_session['username'] = username
+    #     flask_session['trainbeacon'] = BEACON_URL.find("train")>=0
+    #     flask_session['logged_in'] = True
+    #     return redirect(url_for('main.index'))
+    # return render_template('login_beacon.html')
 
 # Route for logout page
 @main.route('/logout', methods=['GET', 'POST'])
@@ -56,7 +51,7 @@ def logout():
     flask_session.pop('logged_in', None)
     flask_session.pop('trainbeacon', None)
     flask_session.pop('beacon_url', None)
-    return render_template('login.html', message="You have successfully logged out"), 200
+    return render_template('logout.html', message="You have successfully logged out"), 200
 
 @main.route('/', methods=['GET'])
 def index():
