@@ -7,8 +7,8 @@ import pytz
 import json
 
 @lru_cache(maxsize=1)
-def get_api_token():
-    token_data = beacon_auth.get_api_token(USERNAME, PASSWORD, BEACON_URL)
+def get_api_token(username=USERNAME, password=PASSWORD):
+    token_data = beacon_auth.get_api_token(username, password, BEACON_URL)
     return token_data.get('accessToken')
 
 # Function to search for a member by registration number
