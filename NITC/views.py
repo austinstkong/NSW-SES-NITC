@@ -84,7 +84,7 @@ def search_person():
 @main.route('/get_items_by_taggroupid')
 def get_items_by_taggroupid():
     tag_group_id = request.args.get('tagGroupId', type=int)
-    df = pd.read_csv('/home/andrew/git/NITC2.0/NITC/static/items.csv')
+    df = pd.read_csv('NITC/static/items.csv')
     filtered_df = df[df['tagGroupId'] == tag_group_id]  # Correct column name case
 
     data = filtered_df.to_dict(orient='records')
