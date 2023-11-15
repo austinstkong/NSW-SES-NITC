@@ -7,18 +7,17 @@ import pytz
 import json
 
 @lru_cache(maxsize=1)
-def get_api_token(username=USERNAME, password=PASSWORD):
-    token_data = beacon_auth.get_api_token(username, password, BEACON_URL)
-    if token_data is None:
-        print("Access token was not found")
+def get_token(username=USERNAME, password=PASSWORD):
+    token = beacon_auth.get_api_token(username, password, BEACON_URL)
+    if token is None:
+        print("Beacon access token was not found")
         return None
-    return token_data.get('accessToken')
+    return token.get('accessToken')
 
 # Function to search for a member by registration number
 @lru_cache(maxsize=32)
-def search_member_by_reg_num(registrationNumber):
-    access_token = get_api_token()
-    headers = {"Authorization": f"Bearer {access_token}"}
+def search_member_by_reg_num(registrationNumber, token):
+    headers = {"Authorization": f"Bearer {token}"}
     search_url = f"https://apitrainbeacon.ses.nsw.gov.au/Api/v1/People/search?registrationNumber={registrationNumber}"
     response = requests.get(search_url, headers=headers)
     if response.status_code == 200:
@@ -28,12 +27,9 @@ def search_member_by_reg_num(registrationNumber):
     else:
         return None, None
 
-
-
 @lru_cache(maxsize=32)
-def search_member_by_last_name_api(LastName):
-    access_token = get_api_token()
-    headers = {"Authorization": f"Bearer {access_token}"}
+def search_member_by_last_name(LastName, token):
+    headers = {"Authorization": f"Bearer {token}"}
     search_url = f"{BEACON_URL}/Api/v1/People/Search?LastName={LastName}"
     response = requests.get(search_url, headers=headers)
     return response_handling(response)
@@ -84,5 +80,3 @@ def send_api_payload(person_id, start_date, end_date, tag_ids, token):
         return {"status": "success", "message": "Check-out time captured and event created"}
     else:
         return {"status": "error", "message": f"Failed to post to API: {response.text}"}
-
-

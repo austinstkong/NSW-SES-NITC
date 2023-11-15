@@ -5,7 +5,7 @@ from .api_utils import search_member_by_reg_num
 from .config import SECRET_KEY, USERNAME, BEACON_URL
 from .models import Base, Member
 from sqlalchemy import create_engine
-from .api_utils import search_member_by_reg_num, search_member_by_last_name_api, get_api_token, send_api_payload
+from .api_utils import search_member_by_reg_num, search_member_by_last_name, get_token, send_api_payload
 from .member_handlers import handle_member_record, Session
 from .time_utils import sydney_time_now
 import json
@@ -24,7 +24,7 @@ def login():
         passcode = request.form.get('passcode')
         if passcode == '1325':
             flask_session['logged_in'] = True
-            flask_session['beacon_token'] = get_api_token()
+            flask_session['beacon_token'] = get_token()
             flask_session['username'] = USERNAME
             flask_session['trainbeacon'] = BEACON_URL.find("train")>=0
             return redirect(url_for('main.index'))
@@ -38,11 +38,11 @@ def login_beacon():
         username = request.form.get('username')
         password = request.form.get('password')
         try:
-            beacon_token = get_api_token(username, password)
             flask_session['logged_in'] = True
+            flask_session['beacon_token'] = get_token()
             flask_session['username'] = username
             flask_session['trainbeacon'] = BEACON_URL.find("train")>=0
-            flask_session['beacon_token'] = get_api_token()
+            
             return redirect(url_for('main.index'))
         except:
             return render_template('login_beacon.html', error="Incorrect username or password"), 401
@@ -96,13 +96,13 @@ def search_person():
     registrationNumber = request.args.get('registrationNumber')
     LastName = request.args.get('LastName')
     if registrationNumber:
-        member_data, _ = search_member_by_reg_num(registrationNumber)
+        member_data, _ = search_member_by_reg_num(registrationNumber, flask_session['beacon_token'])
         if member_data:
             return jsonify(member_data)
         else:
             return jsonify({"status": "error", "message": "Member not found"}), 404
     elif LastName:
-        member_data, _ = search_member_by_last_name_api(LastName)
+        member_data, _ = search_member_by_last_name(LastName, flask_session['beacon_token'])
         if member_data:
             return jsonify(member_data)
         else:
@@ -150,7 +150,7 @@ def check_out():
     
     session = Session()
     try:
-        member_data, person_id = search_member_by_reg_num(registration_number)
+        member_data, person_id = search_member_by_reg_num(registration_number, flask_session['beacon_token'])
         if not member_data:
             return jsonify({"status": "error", "message": "Member not found"}), 404
         
@@ -160,8 +160,7 @@ def check_out():
             # Fetch the member record to get start_date and end_date
             member_record = session.query(Member).filter_by(member_number=registration_number).order_by(Member.id.desc()).first()
             if member_record and member_record.end_date:
-                token = get_api_token()
-                api_result = send_api_payload(person_id, member_record.start_date, member_record.end_date, tag_ids, token)
+                api_result = send_api_payload(person_id, member_record.start_date, member_record.end_date, tag_ids, flask_session['beacon_token'])
                 return jsonify(api_result)
             else:
                 return jsonify({"status": "error", "message": "Member record not found or check-out not completed"}), 404
