@@ -13,12 +13,55 @@
 
 </head>
 <body>
+    <nav class="navbar bg-success border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="/static/images/SES-Beacon-Training-weblogo.png" alt="SES Train Beacon" class="d-inline-block align-text-middle">
+            Auto NITC
+            </a>
+            {% if session['username'] %}
+            <span class="navbar-text">
+                Welcome, {{session['username']}}
+                {% if session['beacon_token'] %}
+                <img src="/static/images/lh.png" alt="Lighthouse" height="25px" class="d-inline-block align-text-middle">
+                {% endif %}
+            </span>
+            
+            <form class="d-flex" action="/logout" method="post">
+                <button class="btn btn-outline-light" type="submit">Logout</button>
+            </form>
+            
+            {% endif %}
+        </div>
+    </nav>
+    
+    {% with errors = get_flashed_messages(category_filter=["error"]) %}
+    {% if errors %}
+        {%- for message in errors %}
+        <div class="alert alert-danger" role="alert">
+            <p><strong>{{msg}}</strong></p>
+        </div>
+        {% endfor -%}
+    {% endif %}
+    {% endwith %}
+    
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-danger" role="alert">
+            <p><strong>{{category}}: {{message}}</strong></p>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
 
     {% if error%}
-    <div class="alert alert-danger" role="alert">
+    <div class="alert alert-warning" role="alert">
         <p><strong>{{error}}</strong></p>
     </div>
     {% endif%}
+    
     {% if message%}
     <div class="alert alert-info" role="alert">
         <p>{{message}}</p>

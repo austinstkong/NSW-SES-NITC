@@ -1,8 +1,8 @@
 # In views.py
-from flask import Flask, Blueprint, render_template, request, session as flask_session, redirect, url_for, jsonify
+from flask import Flask, Blueprint, render_template, request, session as flask_session, redirect, url_for, jsonify, flash
 from .api_utils import search_member_by_reg_num
 # from flask import Flask, request, , render_template, session as flask_session, redirect, url_for
-from .config import SECRET_KEY
+from .config import SECRET_KEY, USERNAME
 from .models import Base, Member
 from sqlalchemy import create_engine
 from .api_utils import search_member_by_reg_num, search_member_by_last_name_api, get_api_token, send_api_payload
@@ -16,7 +16,6 @@ import pytz
 import pandas as pd
 
 main = Blueprint('main', __name__)
-beacon_token = None
 
 # Route for login page
 @main.route('/login', methods=['GET', 'POST'])
@@ -25,6 +24,8 @@ def login():
         passcode = request.form.get('passcode')
         if passcode == '1325':
             flask_session['logged_in'] = True
+            flask_session['beacon_token'] = get_api_token()
+            flask_session['username'] = USERNAME
             return redirect(url_for('main.index'))
         else:
             return render_template('login.html', error="Incorrect passcode"), 401
@@ -38,15 +39,18 @@ def login_beacon():
         try:
             beacon_token = get_api_token(username, password)
             flask_session['logged_in'] = True
+            flask_session['username'] = username
+            flask_session['beacon_token'] = get_api_token()
             return redirect(url_for('main.index'))
         except:
             return render_template('login_beacon.html', error="Incorrect username or password"), 401
     return render_template('login_beacon.html')
 
 # Route for logout page
-@main.route('/logout', methods=['POST'])
+@main.route('/logout', methods=['GET', 'POST'])
 def logout():
     flask_session['logged_in'] = False
+    flask_session.pop('username', None)
     beacon_token = None
     return render_template('login.html', message="You have successfully logged out"), 200
 

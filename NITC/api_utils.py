@@ -9,6 +9,9 @@ import json
 @lru_cache(maxsize=1)
 def get_api_token(username=USERNAME, password=PASSWORD):
     token_data = beacon_auth.get_api_token(username, password, BEACON_URL)
+    if token_data is None:
+        print("Access token was not found")
+        return None
     return token_data.get('accessToken')
 
 # Function to search for a member by registration number
