@@ -85,7 +85,7 @@
   
   input[type="text"], input[type="number"], input[type="password"] {
     flex: 1;
-    width: 100%;
+    width: 400px;
     padding: 12px;
     margin: 8px 0;
     box-sizing: border-box;
@@ -94,7 +94,7 @@
     transition: border-color 0.3s;
   }
   
-  input[type="text"]:focus {
+  input[type="text"]:focus, input[type="number"], input[type="password"]:focus {
     border-color: #159ce4;
     outline: none;
   }

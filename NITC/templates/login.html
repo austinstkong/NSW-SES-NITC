@@ -6,14 +6,94 @@
 
 <div id="loginForm">
     <form action="/login" method="post"> <!-- Update the action attribute to your login processing URL -->
-        
-        <input type="password" id="passcode" name="passcode" placeholder="Password" required>
-        {% include 'keypad.html' %}
-        <div class="submit-button center-content">
-            <button type="submit" class="btn btn-primary check">Login</button>
-        </div> 
-
+        <input type="password" id="passcode" name="passcode" placeholder="Enter your passcode" required>
+        <div id="keypad">
+            <button type="button" class="keypad-button" value="1" onClick=addNumber(this)>1</button>
+            <button type="button" class="keypad-button" value="2" onClick=addNumber(this)>2</button>
+            <button type="button" class="keypad-button" value="3" onClick=addNumber(this)>3</button>
+            <button type="button" class="keypad-button" value="4" onClick=addNumber(this)>4</button>
+            <button type="button" class="keypad-button" value="5" onClick=addNumber(this)>5</button>
+            <button type="button" class="keypad-button" value="6" onClick=addNumber(this)>6</button>
+            <button type="button" class="keypad-button" value="7" onClick=addNumber(this)>7</button>
+            <button type="button" class="keypad-button" value="8" onClick=addNumber(this)>8</button>
+            <button type="button" class="keypad-button" value="9" onClick=addNumber(this)>9</button>
+            <button type="button" class="keypad-button" id="clear" onClick=clearField()>Clear</button>
+            <button type="button" class="keypad-button" value="0" onClick=addNumber(this)>0</button>
+            <button type="button" class="keypad-button" id="backspace" onClick=backSpace()>←</button>
+        </div>
+        <div id=submit>
+        <button type="submit" class="submit-button">Login</button>
+        </div>
     </form>
 </div>
+
+
+<script>
+    function addNumber(element){
+        document.getElementById('passcode').value = document.getElementById('passcode').value+element.value;
+    }
+    function backSpace(){
+        document.getElementById('passcode').value = document.getElementById('passcode').value.slice(0, -1);
+    }
+    function clearField(){
+        document.getElementById('passcode').value = '';
+    }
+</script>
+<style>
+    #loginForm {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #fff;
+        padding: 40px;
+        border-radius: 8px;
+        width: 100%;
+        /* max-width: 400px; */
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    #passcode {
+        width: 90%;
+        padding: 10px 15px;
+        margin-bottom: 20px;
+        font-size: 18px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease-in-out;
+    }
+    #passcode:focus {
+        border-color: #0056b3;
+        outline: none;
+    }
+    #keypad {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 20px;
+    }
+    button {
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+        background: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    .function-key {
+        background-color: #666;
+    }
+    .function-key:hover {
+        background-color: #333;
+    }
+    button[type="submit"] {
+    margin-top: 20px;
+    }
+</style>
 
 {% endblock %}
