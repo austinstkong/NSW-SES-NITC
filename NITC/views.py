@@ -2,7 +2,7 @@
 from flask import Flask, Blueprint, render_template, request, session as flask_session, redirect, url_for, jsonify, flash
 from .api_utils import search_member_by_reg_num
 # from flask import Flask, request, , render_template, session as flask_session, redirect, url_for
-from .config import SECRET_KEY, USERNAME
+from .config import SECRET_KEY, USERNAME, BEACON_URL
 from .models import Base, Member
 from sqlalchemy import create_engine
 from .api_utils import search_member_by_reg_num, search_member_by_last_name_api, get_api_token, send_api_payload
@@ -26,6 +26,7 @@ def login():
             flask_session['logged_in'] = True
             flask_session['beacon_token'] = get_api_token()
             flask_session['username'] = USERNAME
+            flask_session['trainbeacon'] = BEACON_URL.find("train")>=0
             return redirect(url_for('main.index'))
         else:
             return render_template('login.html', error="Incorrect passcode"), 401
@@ -40,6 +41,7 @@ def login_beacon():
             beacon_token = get_api_token(username, password)
             flask_session['logged_in'] = True
             flask_session['username'] = username
+            flask_session['trainbeacon'] = BEACON_URL.find("train")>=0
             flask_session['beacon_token'] = get_api_token()
             return redirect(url_for('main.index'))
         except:
@@ -51,7 +53,9 @@ def login_beacon():
 def logout():
     flask_session['logged_in'] = False
     flask_session.pop('username', None)
-    beacon_token = None
+    flask_session.pop('logged_in', None)
+    flask_session.pop('trainbeacon', None)
+    flask_session.pop('beacon_url', None)
     return render_template('login.html', message="You have successfully logged out"), 200
 
 @main.route('/', methods=['GET'])

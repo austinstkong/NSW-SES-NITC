@@ -13,18 +13,27 @@
 
 </head>
 <body>
+    {% if session['trainbeacon'] %}
     <nav class="navbar bg-success border-bottom border-body" data-bs-theme="dark">
+    {% else %}
+    <nav class="navbar bg-warning border-bottom border-body" data-bs-theme="dark"></nav>
+    {% endif %}
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
-                <img src="/static/images/SES-Beacon-Training-weblogo.png" alt="SES Train Beacon" class="d-inline-block align-text-middle">
+                {% if not session['logged_in'] %}
+                <img src="/static/images/NSW_SES_Logo_Mono_Transparent_Small.png" alt="NSW SES" class="d-inline-block align-text-middle">
+                {% else %}
+                    {% if session['trainbeacon'] %}
+                    <img src="/static/images/SES-Beacon-Training-weblogo.png" alt="SES Train Beacon" class="d-inline-block align-text-middle">
+                    {% else %}
+                    <img src="/static/images/SES-Beacon-weblogo.png" alt="SES Beacon" height=50 class="d-inline-block align-text-middle">
+                    {% endif %}
+                {% endif %}
             Auto NITC
             </a>
-            {% if session['username'] %}
+            {% if session['logged_in'] %}
             <span class="navbar-text">
                 Welcome, {{session['username']}}
-                {% if session['beacon_token'] %}
-                <img src="/static/images/lh.png" alt="Lighthouse" height="25px" class="d-inline-block align-text-middle">
-                {% endif %}
             </span>
             
             <form class="d-flex" action="/logout" method="post">
@@ -34,6 +43,12 @@
             {% endif %}
         </div>
     </nav>
+    
+    {% if session['logged_in'] and not session['beacon_token'] %}
+    <div class="alert alert-danger" role="alert">
+        <p><strong>You are not logged onto beacon. Try logging out and logging back on again.</strong></p>
+    </div>
+    {% endif %}
     
     {% with errors = get_flashed_messages(category_filter=["error"]) %}
     {% if errors %}
