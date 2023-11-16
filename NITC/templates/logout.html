@@ -2,6 +2,10 @@
 
 {% block title %}You have logged out{% endblock %}
 
-{% block content %}
+{% block header %}
+<meta http-equiv="refresh" content="1"; url="/" />
+{% endblock %}
 
+{% block content %}
+<p>You will be automaticall redirected home. Click <a href="/">here</a> if that does not happen.</p>
 {% endblock %}
