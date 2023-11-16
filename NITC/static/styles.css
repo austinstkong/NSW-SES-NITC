@@ -83,7 +83,7 @@
     margin-bottom: 24px;
   }
   
-  input[type="text"], input[type="number"], input[type="password"] {
+  input[type="text"], input[type="number"] {
     flex: 1;
     width: 400px;
     padding: 12px;
@@ -94,12 +94,12 @@
     transition: border-color 0.3s;
   }
   
-  input[type="text"]:focus, input[type="number"], input[type="password"]:focus {
+  input[type="text"]:focus {
     border-color: #159ce4;
     outline: none;
   }
   
-  #member-number-section input[type="text"], input[type="number"], input[type="password"] {
+  #member-number-section input[type="text"], input[type="number"] {
     display: block; /* Makes the input take the entire line */
     margin: auto; /* Centers the input */
     max-width: 400px; /* Maximum width of the input */
