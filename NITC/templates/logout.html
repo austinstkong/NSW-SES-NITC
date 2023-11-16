@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}You have logged out{% endblock %}
+{% block title %}Logout{% endblock %}
 
 {% block header %}
 <meta http-equiv="refresh" content="1"; url="/" />
 {% endblock %}
 
 {% block content %}
-<p>You will be automaticall redirected home. Click <a href="/">here</a> if that does not happen.</p>
+<h1>Logout <small class="text-body-secondary">You are not logged out</small></h1>
+<p>You will be redirected to login. Click <a href="/">here</a> if that does not happen automatially.</p>
 {% endblock %}
